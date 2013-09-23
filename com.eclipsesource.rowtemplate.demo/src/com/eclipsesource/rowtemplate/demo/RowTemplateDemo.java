@@ -79,7 +79,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     tableViewer.getTable().addSelectionListener( new SelectionAdapter() {
       @Override
       public void widgetSelected( SelectionEvent e) {
-       if( e.text.equals( "image" ) ) {
+       if( "image".equals( e.text) ) {
          System.out.println( "Image Cell was clicked" );
        }
       }
