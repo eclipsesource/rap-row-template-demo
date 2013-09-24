@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.eclipsesource.rowtemplate.demo;
 
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -23,6 +22,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
 
@@ -31,8 +31,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
 
   @Override
   protected void createContents( Composite parent ) {
+    parent.setLayout( new FillLayout() );
     TableViewer tableViewer = new TableViewer( parent );
-    GridDataFactory.fillDefaults().align( SWT.CENTER, SWT.CENTER ).grab( true, true ).applyTo( tableViewer.getTable() );
     tableViewer.setContentProvider( new ArrayContentProvider() );
     addFirstNameColumn( tableViewer );
     addLastNameColumn( tableViewer );
