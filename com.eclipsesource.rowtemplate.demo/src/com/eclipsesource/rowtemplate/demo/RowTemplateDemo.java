@@ -48,9 +48,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     phoneColumn.getColumn().setWidth( 48 );
     phoneColumn.getColumn().setText( "Phone" );
     final Image phoneImage = new Image( tableViewer.getTable().getDisplay(),
-                                        RowTemplateDemo.class.getResourceAsStream( "/"
-                                                                                   + "phone"
-                                                                                   + ".png" ) );
+                                        RowTemplateDemo.class.getResourceAsStream( "/phone.png" ) );
     phoneColumn.setLabelProvider( new ColumnLabelProvider() {
 
       @Override
