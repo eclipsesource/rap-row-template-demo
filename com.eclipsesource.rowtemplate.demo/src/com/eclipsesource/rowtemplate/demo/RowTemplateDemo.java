@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2013 EclipseSource and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    EclipseSource - initial API and implementation
+ * Copyright (c) 2013 EclipseSource and others. All rights reserved. This
+ * program and the accompanying materials are made available under the terms of
+ * the Eclipse Public License v1.0 which accompanies this distribution, and is
+ * available at http://www.eclipse.org/legal/epl-v10.html Contributors:
+ * EclipseSource - initial API and implementation
  ******************************************************************************/
 package com.eclipsesource.rowtemplate.demo;
 
@@ -14,6 +11,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.rap.rwt.internal.template.Cell;
 import org.eclipse.rap.rwt.internal.template.Cells;
@@ -21,10 +19,11 @@ import org.eclipse.rap.rwt.internal.template.RowTemplate;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-
 
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
@@ -32,14 +31,36 @@ public class RowTemplateDemo extends AbstractEntryPoint {
   @Override
   protected void createContents( Composite parent ) {
     parent.setLayout( new FillLayout() );
-    TableViewer tableViewer = new TableViewer( parent );
+    TableViewer tableViewer = new TableViewer( parent, SWT.NONE );
+    tableViewer.getTable().setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 72 ) );
     tableViewer.setContentProvider( new ArrayContentProvider() );
     addFirstNameColumn( tableViewer );
     addLastNameColumn( tableViewer );
+    addPhoneColumn( tableViewer );
     addFooColumn( tableViewer );
     tableViewer.setInput( Persons.get() );
     RowTemplate rowTemplate = createRowTemplate( parent, tableViewer );
     tableViewer.getTable().setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
+  }
+
+  private void addPhoneColumn( final TableViewer tableViewer ) {
+    TableViewerColumn phoneColumn = new TableViewerColumn( tableViewer, SWT.NONE );
+    phoneColumn.getColumn().setWidth( 48 );
+    phoneColumn.getColumn().setText( "Phone" );
+    phoneColumn.setLabelProvider( new ColumnLabelProvider() {
+
+      @Override
+      public String getText( Object element ) {
+        Person p = ( Person )element;
+        return p.getFirstName();
+      }
+
+      @Override
+      public Image getImage( Object element ) {
+        return new Image( tableViewer.getTable().getDisplay(),
+                          RowTemplateDemo.class.getResourceAsStream( "/" + "phone" + ".png" ) );
+      }
+    } );
   }
 
   private void addFirstNameColumn( final TableViewer tableViewer ) {
@@ -55,51 +76,63 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       }
 
       @Override
-      public Image getImage(Object element) {
+      public Image getImage( Object element ) {
         Person p = ( Person )element;
         String name = p.getFirstName().toLowerCase();
-        return new Image( tableViewer.getTable().getDisplay(), RowTemplateDemo.class.getResourceAsStream( "/" + name + ".png" ) );
+        if( name.equals( "tim" ) ) {
+          return new Image( tableViewer.getTable().getDisplay(),
+                            RowTemplateDemo.class.getResourceAsStream( "/" + name + ".png" ) );
+        }
+        return new Image( tableViewer.getTable().getDisplay(),
+                          RowTemplateDemo.class.getResourceAsStream( "/" + name + ".jpeg" ) );
       }
     } );
   }
 
   private RowTemplate createRowTemplate( Composite parent, TableViewer tableViewer ) {
     RowTemplate rowTemplate = new RowTemplate();
-
     Cell imageCell = Cells.createImageCell( rowTemplate, SWT.LEFT | SWT.TOP );
     imageCell.setBindingIndex( 0 );
     imageCell.setTop( 4 );
-    imageCell.setLeft( 8 );
-    imageCell.setWidth( 32 );
-    imageCell.setHeight( 32 );
-
+    imageCell.setLeft( 4 );
+    imageCell.setWidth( 64 );
+    imageCell.setHeight( 64 );
     imageCell.setName( "image" );
     imageCell.setSelectable( true );
-
     tableViewer.getTable().addSelectionListener( new SelectionAdapter() {
+
       @Override
-      public void widgetSelected( SelectionEvent e) {
-       if( "image".equals( e.text) ) {
-         System.out.println( "Image Cell was clicked" );
-       }
+      public void widgetSelected( SelectionEvent e ) {
+        if( "image".equals( e.text ) ) {
+          System.out.println( "Image Cell was clicked" );
+        }
       }
     } );
-
-
     Cell firstNameCell = Cells.createTextCell( rowTemplate, SWT.LEFT );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
-    firstNameCell.setLeft( 48 );
+    firstNameCell.setLeft( 72 );
     firstNameCell.setTop( 4 );
     firstNameCell.setRight( 8 );
-    firstNameCell.setHeight( 24 );
-
+    firstNameCell.setHeight( 28 );
+    Font font = parent.getFont();
+    FontData fontData = font.getFontData()[ 0 ];
+    fontData.setHeight( 20 );
+    fontData.setStyle( SWT.BOLD );
+    font = new Font( parent.getDisplay(), fontData );
+    firstNameCell.setFont( font );
     Cell lastNameCell = Cells.createTextCell( rowTemplate, SWT.LEFT );
     lastNameCell.setBindingIndex( 1 );
-    lastNameCell.setLeft( 48 );
+    lastNameCell.setLeft( 72 );
     lastNameCell.setTop( 40 );
     lastNameCell.setRight( 8 );
-    lastNameCell.setBottom( 4 );
+    lastNameCell.setBottom( 8 );
+    Cell phone = Cells.createImageCell( rowTemplate, SWT.RIGHT );
+    phone.setBindingIndex( 2 );
+    phone.setTop( 8 );
+    phone.setWidth( 48 );
+    phone.setRight( 8 );
+    phone.setBottom( 8 );
     return rowTemplate;
   }
 
@@ -114,7 +147,6 @@ public class RowTemplateDemo extends AbstractEntryPoint {
         Person p = ( Person )element;
         return p.getLastName();
       }
-
     } );
   }
 
@@ -128,8 +160,6 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       public String getText( Object element ) {
         return "foo";
       }
-
     } );
   }
-
 }
