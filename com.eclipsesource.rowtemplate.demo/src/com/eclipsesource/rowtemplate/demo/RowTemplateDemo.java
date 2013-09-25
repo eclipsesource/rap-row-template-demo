@@ -112,6 +112,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     firstNameCell.setTop( 4 );
     firstNameCell.setRight( 8 );
     firstNameCell.setHeight( 28 );
+    firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_RED ) );
     Font font = parent.getFont();
     FontData fontData = font.getFontData()[ 0 ];
     fontData.setHeight( 20 );
@@ -124,12 +125,14 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     lastNameCell.setTop( 40 );
     lastNameCell.setRight( 8 );
     lastNameCell.setBottom( 8 );
+    lastNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_WHITE ) );
+    lastNameCell.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_GREEN ) );
     lastNameCell.setFont( new Font( parent.getDisplay(), new FontData( "asd", 16, SWT.ITALIC ) ) );
     Cell phone = Cells.createImageCell( rowTemplate, SWT.RIGHT );
     phone.setBindingIndex( 2 );
     phone.setTop( 8 );
     phone.setWidth( 48 );
-    phone.setRight( 8 );
+    phone.setRight( 16 );
     phone.setBottom( 8 );
     return rowTemplate;
   }
