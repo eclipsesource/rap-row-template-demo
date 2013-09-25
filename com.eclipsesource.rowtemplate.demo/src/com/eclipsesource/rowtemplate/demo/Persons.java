@@ -8,7 +8,6 @@
 package com.eclipsesource.rowtemplate.demo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
@@ -37,7 +36,6 @@ public class Persons {
       persons.add( jordi );
       persons.add( tim );
     }
-    Collections.shuffle( persons );
     return persons;
   }
 

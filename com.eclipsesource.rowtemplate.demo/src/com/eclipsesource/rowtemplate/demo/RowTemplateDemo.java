@@ -124,6 +124,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     lastNameCell.setTop( 40 );
     lastNameCell.setRight( 8 );
     lastNameCell.setBottom( 8 );
+    lastNameCell.setFont( new Font( parent.getDisplay(), new FontData( "asd", 16, SWT.ITALIC ) ) );
     Cell phone = Cells.createImageCell( rowTemplate, SWT.RIGHT );
     phone.setBindingIndex( 2 );
     phone.setTop( 8 );
