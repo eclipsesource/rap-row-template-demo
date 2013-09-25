@@ -11,63 +11,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+
 public class Persons {
 
-  public static Person[] get() {
-    List<Person> persons = getPersons();
+  public static Person[] get( Display display ) {
+    List<Person> persons = getPersons( display );
     Person[] personArray = new Person[ persons.size() ];
     persons.toArray( personArray );
     return personArray;
   }
 
-  private static List<Person> getPersons() {
+  private static List<Person> getPersons( Display display ) {
     List<Person> persons = new ArrayList<Person>();
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
-    persons.add( new Person( "Ian", "Bull" ) );
-    persons.add( new Person( "Moritz", "Post" ) );
-    persons.add( new Person( "Tim", "Buschtöns" ) );
-    persons.add( new Person( "Jordi", "Böhme" ) );
-    persons.add( new Person( "Holger", "Staudacher" ) );
+    Person ian = new Person( "Ian", "Bull", loadImage( display, "/ian.jpeg" ) );
+    Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpeg" ) );
+    Person holger = new Person( "Holger", "Staudacher", loadImage( display, "/holger.jpeg" ) );
+    Person jordi = new Person( "Jordi", "Böhme", loadImage( display, "/jordi.jpeg" ) );
+    Person tim = new Person( "Tim", "Buschtöns", loadImage( display, "/tim.png" ) );
+    for( int i = 0; i < 10; i++ ) {
+      persons.add( ian );
+      persons.add( moritz );
+      persons.add( holger );
+      persons.add( jordi );
+      persons.add( tim );
+    }
     Collections.shuffle( persons );
     return persons;
+  }
+
+  private static Image loadImage( Display display, String name ) {
+    Image image = new Image( display, Persons.class.getResourceAsStream( name ) );
+    return ImageUtil.resizeImage( image, 48, 48 );
   }
 }

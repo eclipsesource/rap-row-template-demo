@@ -38,7 +38,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     addLastNameColumn( tableViewer );
     addPhoneColumn( tableViewer );
     addFooColumn( tableViewer );
-    tableViewer.setInput( Persons.get() );
+    tableViewer.setInput( Persons.get( parent.getDisplay() ) );
     RowTemplate rowTemplate = createRowTemplate( parent, tableViewer );
     tableViewer.getTable().setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
   }
@@ -47,6 +47,10 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     TableViewerColumn phoneColumn = new TableViewerColumn( tableViewer, SWT.NONE );
     phoneColumn.getColumn().setWidth( 48 );
     phoneColumn.getColumn().setText( "Phone" );
+    final Image phoneImage = new Image( tableViewer.getTable().getDisplay(),
+                                        RowTemplateDemo.class.getResourceAsStream( "/"
+                                                                                   + "phone"
+                                                                                   + ".png" ) );
     phoneColumn.setLabelProvider( new ColumnLabelProvider() {
 
       @Override
@@ -57,8 +61,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
 
       @Override
       public Image getImage( Object element ) {
-        return new Image( tableViewer.getTable().getDisplay(),
-                          RowTemplateDemo.class.getResourceAsStream( "/" + "phone" + ".png" ) );
+        return phoneImage;
       }
     } );
   }
@@ -78,13 +81,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       @Override
       public Image getImage( Object element ) {
         Person p = ( Person )element;
-        String name = p.getFirstName().toLowerCase();
-        if( name.equals( "tim" ) ) {
-          return new Image( tableViewer.getTable().getDisplay(),
-                            RowTemplateDemo.class.getResourceAsStream( "/" + name + ".png" ) );
-        }
-        return new Image( tableViewer.getTable().getDisplay(),
-                          RowTemplateDemo.class.getResourceAsStream( "/" + name + ".jpeg" ) );
+        return p.getImage();
       }
     } );
   }
