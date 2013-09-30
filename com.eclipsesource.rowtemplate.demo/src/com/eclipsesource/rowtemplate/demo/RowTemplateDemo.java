@@ -92,17 +92,6 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     imageCell.setLeft( 4 );
     imageCell.setWidth( 64 );
     imageCell.setHeight( 64 );
-    imageCell.setName( "image" );
-    imageCell.setSelectable( true );
-    tableViewer.getTable().addSelectionListener( new SelectionAdapter() {
-
-      @Override
-      public void widgetSelected( SelectionEvent e ) {
-        if( "image".equals( e.text ) ) {
-          System.out.println( "Image Cell was clicked" );
-        }
-      }
-    } );
     Cell firstNameCell = Cells.createTextCell( rowTemplate, SWT.LEFT );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
@@ -132,6 +121,17 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     phone.setWidth( 48 );
     phone.setRight( 16 );
     phone.setBottom( 8 );
+    phone.setName( "phone" );
+    phone.setSelectable( true );
+    tableViewer.getTable().addSelectionListener( new SelectionAdapter() {
+
+      @Override
+      public void widgetSelected( SelectionEvent e ) {
+        if( "phone".equals( e.text ) ) {
+          System.out.println( "Phone cell was clicked" );
+        }
+      }
+    } );
     return rowTemplate;
   }
 
