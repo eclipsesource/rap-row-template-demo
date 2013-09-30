@@ -125,7 +125,10 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     lastNameCell.setBottom( 8 );
     lastNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_WHITE ) );
     lastNameCell.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_GREEN ) );
-    lastNameCell.setFont( new Font( parent.getDisplay(), new FontData( "asd", 16, SWT.ITALIC ) ) );
+    FontData lastNameFont = tableViewer.getTable().getFont().getFontData()[ 0 ];
+    lastNameFont.setHeight( 16 );
+    lastNameFont.setStyle( SWT.ITALIC );
+    lastNameCell.setFont( new Font( parent.getDisplay(), lastNameFont ) );
     Cell phone = Cells.createImageCell( rowTemplate, SWT.RIGHT );
     phone.setBindingIndex( 2 );
     phone.setTop( 8 );
