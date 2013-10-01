@@ -16,6 +16,8 @@ import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.rap.rwt.internal.template.Cell;
 import org.eclipse.rap.rwt.internal.template.Cells;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
+import org.eclipse.rap.rwt.widgets.DialogCallback;
+import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,6 +26,8 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.TableItem;
 
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
@@ -84,7 +88,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     } );
   }
 
-  private RowTemplate createRowTemplate( Composite parent, TableViewer tableViewer ) {
+  private RowTemplate createRowTemplate( final Composite parent, TableViewer tableViewer ) {
     RowTemplate rowTemplate = new RowTemplate();
     Cell imageCell = Cells.createImageCell( rowTemplate, SWT.LEFT | SWT.TOP );
     imageCell.setBindingIndex( 0 );
@@ -92,6 +96,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     imageCell.setLeft( 4 );
     imageCell.setWidth( 64 );
     imageCell.setHeight( 64 );
+    imageCell.setSelectable( true );
+    imageCell.setName( "face" );
     Cell firstNameCell = Cells.createTextCell( rowTemplate, SWT.LEFT );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
@@ -131,7 +137,29 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       @Override
       public void widgetSelected( SelectionEvent e ) {
         if( "phone".equals( e.text ) ) {
-          System.out.println( "Phone cell was clicked" );
+          MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
+          messageBox.setText( "Dialing..." );
+          TableItem item = ( TableItem )e.item;
+          String firstName = item.getText( 0 );
+          messageBox.setMessage( "Calling " + firstName + "!" );
+          DialogUtil.open( messageBox, new DialogCallback() {
+
+            @Override
+            public void dialogClosed( int returnCode ) {
+            }
+          } );
+        } else if( "face".equals( e.text ) ) {
+          MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
+          messageBox.setText( "Liking..." );
+          TableItem item = ( TableItem )e.item;
+          String firstName = item.getText( 0 );
+          messageBox.setMessage( "Liking " + firstName + " on facebook." );
+          DialogUtil.open( messageBox, new DialogCallback() {
+
+            @Override
+            public void dialogClosed( int returnCode ) {
+            }
+          } );
         }
       }
     } );
