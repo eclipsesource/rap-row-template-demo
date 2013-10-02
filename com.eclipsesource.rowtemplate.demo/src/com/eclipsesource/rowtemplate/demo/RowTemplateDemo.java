@@ -16,7 +16,6 @@ import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.rap.rwt.internal.template.Cell;
 import org.eclipse.rap.rwt.internal.template.Cells;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
-import org.eclipse.rap.rwt.widgets.DialogCallback;
 import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -96,8 +95,6 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     imageCell.setLeft( 4 );
     imageCell.setWidth( 64 );
     imageCell.setHeight( 64 );
-    imageCell.setSelectable( true );
-    imageCell.setName( "face" );
     Cell firstNameCell = Cells.createTextCell( rowTemplate, SWT.LEFT );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
@@ -105,6 +102,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     firstNameCell.setTop( 4 );
     firstNameCell.setRight( 8 );
     firstNameCell.setHeight( 28 );
+    firstNameCell.setName( "firstname" );
+    firstNameCell.setSelectable( true );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_RED ) );
     Font font = parent.getFont();
     FontData fontData = font.getFontData()[ 0 ];
@@ -142,24 +141,9 @@ public class RowTemplateDemo extends AbstractEntryPoint {
           TableItem item = ( TableItem )e.item;
           String firstName = item.getText( 0 );
           messageBox.setMessage( "Calling " + firstName + "!" );
-          DialogUtil.open( messageBox, new DialogCallback() {
-
-            @Override
-            public void dialogClosed( int returnCode ) {
-            }
-          } );
-        } else if( "face".equals( e.text ) ) {
-          MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
-          messageBox.setText( "Liking..." );
-          TableItem item = ( TableItem )e.item;
-          String firstName = item.getText( 0 );
-          messageBox.setMessage( "Liking " + firstName + " on facebook." );
-          DialogUtil.open( messageBox, new DialogCallback() {
-
-            @Override
-            public void dialogClosed( int returnCode ) {
-            }
-          } );
+          DialogUtil.open( messageBox, null );
+        } else if( "firstname".equals( e.text ) ) {
+          System.out.println( "Clicking firstname" );
         }
       }
     } );
