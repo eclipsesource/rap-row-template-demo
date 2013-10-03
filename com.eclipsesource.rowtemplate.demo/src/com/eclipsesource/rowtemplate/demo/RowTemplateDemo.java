@@ -36,7 +36,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
   protected void createContents( Composite parent ) {
     parent.setLayout( new FillLayout() );
     TableViewer tableViewer = new TableViewer( parent, SWT.NONE );
-    tableViewer.getTable().setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 72 ) );
+    tableViewer.getTable().setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 92 ) );
     tableViewer.setContentProvider( new ArrayContentProvider() );
     addFirstNameColumn( tableViewer );
     addLastNameColumn( tableViewer );
@@ -97,10 +97,13 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     imageCell.setLeft( 4 );
     imageCell.setWidth( 64 );
     imageCell.setHeight( 64 );
+    imageCell.setSelectable( true );
+    imageCell.setName( "face" );
     TextCell firstNameCell = new TextCell( rowTemplate );
     firstNameCell.setAlignment( CellAlignment.LEFT );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
+    firstNameCell.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_GRAY ) );
     firstNameCell.setLeft( 72 );
     firstNameCell.setTop( 4 );
     firstNameCell.setRight( 8 );
@@ -110,7 +113,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_RED ) );
     Font font = parent.getFont();
     FontData fontData = font.getFontData()[ 0 ];
-    fontData.setHeight( 20 );
+    fontData.setHeight( 15 );
     fontData.setStyle( SWT.BOLD );
     font = new Font( parent.getDisplay(), fontData );
     firstNameCell.setFont( font );
@@ -118,7 +121,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     lastNameCell.setAlignment( CellAlignment.LEFT );
     lastNameCell.setBindingIndex( 1 );
     lastNameCell.setLeft( 72 );
-    lastNameCell.setTop( 40 );
+    lastNameCell.setTop( 50 );
     lastNameCell.setRight( 8 );
     lastNameCell.setBottom( 8 );
     lastNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_WHITE ) );
