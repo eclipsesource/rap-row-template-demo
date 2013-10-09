@@ -13,9 +13,10 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
-import org.eclipse.rap.rwt.internal.template.Cell;
-import org.eclipse.rap.rwt.internal.template.Cells;
+import org.eclipse.rap.rwt.internal.template.Cell.CellAlignment;
+import org.eclipse.rap.rwt.internal.template.ImageCell;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
+import org.eclipse.rap.rwt.internal.template.TextCell;
 import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -89,13 +90,15 @@ public class RowTemplateDemo extends AbstractEntryPoint {
 
   private RowTemplate createRowTemplate( final Composite parent, TableViewer tableViewer ) {
     RowTemplate rowTemplate = new RowTemplate();
-    Cell imageCell = Cells.createImageCell( rowTemplate, SWT.LEFT | SWT.TOP );
+    ImageCell imageCell = new ImageCell( rowTemplate );
+    imageCell.setAlignment( CellAlignment.LEFT, CellAlignment.TOP );
     imageCell.setBindingIndex( 0 );
     imageCell.setTop( 4 );
     imageCell.setLeft( 4 );
     imageCell.setWidth( 64 );
     imageCell.setHeight( 64 );
-    Cell firstNameCell = Cells.createTextCell( rowTemplate, SWT.LEFT );
+    TextCell firstNameCell = new TextCell( rowTemplate );
+    firstNameCell.setAlignment( CellAlignment.LEFT );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
     firstNameCell.setLeft( 72 );
@@ -111,7 +114,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     fontData.setStyle( SWT.BOLD );
     font = new Font( parent.getDisplay(), fontData );
     firstNameCell.setFont( font );
-    Cell lastNameCell = Cells.createTextCell( rowTemplate, SWT.LEFT );
+    TextCell lastNameCell = new TextCell( rowTemplate );
+    lastNameCell.setAlignment( CellAlignment.LEFT );
     lastNameCell.setBindingIndex( 1 );
     lastNameCell.setLeft( 72 );
     lastNameCell.setTop( 40 );
@@ -123,8 +127,11 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     lastNameFont.setHeight( 16 );
     lastNameFont.setStyle( SWT.ITALIC );
     lastNameCell.setFont( new Font( parent.getDisplay(), lastNameFont ) );
-    Cell phone = Cells.createImageCell( rowTemplate, SWT.RIGHT );
-    phone.setBindingIndex( 2 );
+    ImageCell phone = new ImageCell( rowTemplate );
+    phone.setAlignment( CellAlignment.RIGHT );
+    final Image phoneImage = new Image( tableViewer.getTable().getDisplay(),
+                                        RowTemplateDemo.class.getResourceAsStream( "/phone.png" ) );
+    phone.setDefaultImage( phoneImage );
     phone.setTop( 8 );
     phone.setWidth( 48 );
     phone.setRight( 16 );
