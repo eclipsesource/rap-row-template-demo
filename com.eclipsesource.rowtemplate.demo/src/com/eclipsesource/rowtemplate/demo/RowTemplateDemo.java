@@ -15,6 +15,7 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.rap.rwt.internal.template.Cell.CellAlignment;
 import org.eclipse.rap.rwt.internal.template.ImageCell;
+import org.eclipse.rap.rwt.internal.template.ImageCell.ScaleMode;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
 import org.eclipse.rap.rwt.internal.template.TextCell;
 import org.eclipse.rap.rwt.widgets.DialogUtil;
@@ -40,32 +41,10 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     tableViewer.setContentProvider( new ArrayContentProvider() );
     addFirstNameColumn( tableViewer );
     addLastNameColumn( tableViewer );
-    addPhoneColumn( tableViewer );
     addFooColumn( tableViewer );
     tableViewer.setInput( Persons.get( parent.getDisplay() ) );
     RowTemplate rowTemplate = createRowTemplate( parent, tableViewer );
     tableViewer.getTable().setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
-  }
-
-  private void addPhoneColumn( final TableViewer tableViewer ) {
-    TableViewerColumn phoneColumn = new TableViewerColumn( tableViewer, SWT.NONE );
-    phoneColumn.getColumn().setWidth( 48 );
-    phoneColumn.getColumn().setText( "Phone" );
-    final Image phoneImage = new Image( tableViewer.getTable().getDisplay(),
-                                        RowTemplateDemo.class.getResourceAsStream( "/phone.png" ) );
-    phoneColumn.setLabelProvider( new ColumnLabelProvider() {
-
-      @Override
-      public String getText( Object element ) {
-        Person p = ( Person )element;
-        return p.getFirstName();
-      }
-
-      @Override
-      public Image getImage( Object element ) {
-        return phoneImage;
-      }
-    } );
   }
 
   private void addFirstNameColumn( final TableViewer tableViewer ) {
@@ -91,7 +70,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
   private RowTemplate createRowTemplate( final Composite parent, TableViewer tableViewer ) {
     RowTemplate rowTemplate = new RowTemplate();
     ImageCell imageCell = new ImageCell( rowTemplate );
-    imageCell.setAlignment( CellAlignment.LEFT, CellAlignment.TOP );
+    imageCell.setAlignment( CellAlignment.BOTTOM, CellAlignment.TOP );
     imageCell.setBindingIndex( 0 );
     imageCell.setTop( 4 );
     imageCell.setLeft( 4 );
@@ -99,17 +78,19 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     imageCell.setHeight( 64 );
     imageCell.setSelectable( true );
     imageCell.setName( "face" );
+    imageCell.setScaleMode( ScaleMode.NONE );
     TextCell firstNameCell = new TextCell( rowTemplate );
-    firstNameCell.setAlignment( CellAlignment.LEFT );
+    firstNameCell.setAlignment( CellAlignment.RIGHT, CellAlignment.BOTTOM );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
     firstNameCell.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_GRAY ) );
     firstNameCell.setLeft( 72 );
     firstNameCell.setTop( 4 );
-    firstNameCell.setRight( 8 );
-    firstNameCell.setHeight( 28 );
+    firstNameCell.setWidth( 80 );
+    firstNameCell.setHeight( 40 );
     firstNameCell.setName( "firstname" );
     firstNameCell.setSelectable( true );
+    firstNameCell.setWrap( true );
     firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_RED ) );
     Font font = parent.getFont();
     FontData fontData = font.getFontData()[ 0 ];
@@ -130,6 +111,14 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     lastNameFont.setHeight( 16 );
     lastNameFont.setStyle( SWT.ITALIC );
     lastNameCell.setFont( new Font( parent.getDisplay(), lastNameFont ) );
+    TextCell likeCell = new TextCell( rowTemplate );
+    likeCell.setLeft( 4 );
+    likeCell.setWidth( 80 );
+    likeCell.setBottom( 2 );
+    likeCell.setHeight( 20 );
+    likeCell.setDefaultText( "Like On FB" );
+    likeCell.setName( "like" );
+    likeCell.setSelectable( true );
     ImageCell phone = new ImageCell( rowTemplate );
     phone.setAlignment( CellAlignment.RIGHT );
     final Image phoneImage = new Image( tableViewer.getTable().getDisplay(),
@@ -151,6 +140,13 @@ public class RowTemplateDemo extends AbstractEntryPoint {
           TableItem item = ( TableItem )e.item;
           String firstName = item.getText( 0 );
           messageBox.setMessage( "Calling " + firstName + "!" );
+          DialogUtil.open( messageBox, null );
+        } else if( "like".equals( e.text ) ) {
+          MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
+          messageBox.setText( "I Like You" );
+          TableItem item = ( TableItem )e.item;
+          String firstName = item.getText( 0 );
+          messageBox.setMessage( "Liking " + firstName + " on FB!" );
           DialogUtil.open( messageBox, null );
         } else if( "firstname".equals( e.text ) ) {
           System.out.println( "Clicking firstname" );
