@@ -13,22 +13,18 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
-import org.eclipse.rap.rwt.internal.template.Cell.CellAlignment;
-import org.eclipse.rap.rwt.internal.template.ImageCell;
-import org.eclipse.rap.rwt.internal.template.ImageCell.ScaleMode;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
-import org.eclipse.rap.rwt.internal.template.TextCell;
 import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TableItem;
+
+import com.eclipsesource.rowtemplate.demo.templates.ExampleTemplate;
 
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
@@ -43,8 +39,9 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     addLastNameColumn( tableViewer );
     addFooColumn( tableViewer );
     tableViewer.setInput( Persons.get( parent.getDisplay() ) );
-    RowTemplate rowTemplate = createRowTemplate( parent, tableViewer );
+    RowTemplate rowTemplate = new ExampleTemplate( tableViewer );
     tableViewer.getTable().setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
+    addListener( parent, tableViewer );
   }
 
   private void addFirstNameColumn( final TableViewer tableViewer ) {
@@ -67,69 +64,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     } );
   }
 
-  private RowTemplate createRowTemplate( final Composite parent, TableViewer tableViewer ) {
-    RowTemplate rowTemplate = new RowTemplate();
-    ImageCell imageCell = new ImageCell( rowTemplate );
-    imageCell.setAlignment( CellAlignment.BOTTOM, CellAlignment.TOP );
-    imageCell.setBindingIndex( 0 );
-    imageCell.setTop( 4 );
-    imageCell.setLeft( 4 );
-    imageCell.setWidth( 64 );
-    imageCell.setHeight( 64 );
-    imageCell.setSelectable( true );
-    imageCell.setName( "face" );
-    imageCell.setScaleMode( ScaleMode.NONE );
-    TextCell firstNameCell = new TextCell( rowTemplate );
-    firstNameCell.setAlignment( CellAlignment.RIGHT, CellAlignment.BOTTOM );
-    firstNameCell.setBindingIndex( 0 );
-    firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_RED ) );
-    firstNameCell.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_GRAY ) );
-    firstNameCell.setLeft( 72 );
-    firstNameCell.setTop( 4 );
-    firstNameCell.setWidth( 80 );
-    firstNameCell.setHeight( 40 );
-    firstNameCell.setName( "firstname" );
-    firstNameCell.setSelectable( true );
-    firstNameCell.setWrap( true );
-    firstNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_RED ) );
-    Font font = parent.getFont();
-    FontData fontData = font.getFontData()[ 0 ];
-    fontData.setHeight( 15 );
-    fontData.setStyle( SWT.BOLD );
-    font = new Font( parent.getDisplay(), fontData );
-    firstNameCell.setFont( font );
-    TextCell lastNameCell = new TextCell( rowTemplate );
-    lastNameCell.setAlignment( CellAlignment.LEFT );
-    lastNameCell.setBindingIndex( 1 );
-    lastNameCell.setLeft( 72 );
-    lastNameCell.setTop( 50 );
-    lastNameCell.setRight( 8 );
-    lastNameCell.setBottom( 8 );
-    lastNameCell.setForeground( parent.getDisplay().getSystemColor( SWT.COLOR_WHITE ) );
-    lastNameCell.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_DARK_GREEN ) );
-    FontData lastNameFont = tableViewer.getTable().getFont().getFontData()[ 0 ];
-    lastNameFont.setHeight( 16 );
-    lastNameFont.setStyle( SWT.ITALIC );
-    lastNameCell.setFont( new Font( parent.getDisplay(), lastNameFont ) );
-    TextCell likeCell = new TextCell( rowTemplate );
-    likeCell.setLeft( 4 );
-    likeCell.setWidth( 80 );
-    likeCell.setBottom( 2 );
-    likeCell.setHeight( 20 );
-    likeCell.setDefaultText( "Like On FB" );
-    likeCell.setName( "like" );
-    likeCell.setSelectable( true );
-    ImageCell phone = new ImageCell( rowTemplate );
-    phone.setAlignment( CellAlignment.RIGHT );
-    final Image phoneImage = new Image( tableViewer.getTable().getDisplay(),
-                                        RowTemplateDemo.class.getResourceAsStream( "/phone.png" ) );
-    phone.setDefaultImage( phoneImage );
-    phone.setTop( 8 );
-    phone.setWidth( 48 );
-    phone.setRight( 16 );
-    phone.setBottom( 8 );
-    phone.setName( "phone" );
-    phone.setSelectable( true );
+  private void addListener( final Composite parent, TableViewer tableViewer ) {
     tableViewer.getTable().addSelectionListener( new SelectionAdapter() {
 
       @Override
@@ -153,7 +88,6 @@ public class RowTemplateDemo extends AbstractEntryPoint {
         }
       }
     } );
-    return rowTemplate;
   }
 
   private void addLastNameColumn( TableViewer tableViewer ) {

@@ -24,19 +24,21 @@ public class Persons {
 
   private static List<Person> getPersons( Display display ) {
     List<Person> persons = new ArrayList<Person>();
-    Person ian = new Person( "Ian The", "Bull", loadImage( display, "/ian.jpeg" ) );
-    Person moritz = new Person( "Moritz The", "Post", loadImage( display, "/moritz.jpeg" ) );
-    Person holger = new Person( "Holger The",
-                                "Staudacher has a really long name that will liley WRAP on some platforms.",
-                                loadImage( display, "/holger.jpeg" ) );
-    Person jordi = new Person( "Jordi The", "Böhme", loadImage( display, "/jordi.jpeg" ) );
-    Person tim = new Person( "Tim The", "Buschtöns", loadImage( display, "/tim.png" ) );
+    Person ian = new Person( "Ian", "Bull", loadImage( display, "/ian.jpg" ) );
+    Person mysterion = new Person( "Mysterion", null, null );
+    Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpg" ) );
+    Person jochen = new Person( "Jochen", "Krause", loadImage( display, "/jochen.jpg" ) );
+    Person holger = new Person( "Holger", "Staudacher.", loadImage( display, "/holger.jpg" ) );
+    Person jordi = new Person( "Jordi", "Böhme", loadImage( display, "/jordi.jpg" ) );
+    Person tim = new Person( "Tim", "Buschtöns", loadImage( display, "/tim.jpg" ) );
     for( int i = 0; i < 10; i++ ) {
       persons.add( ian );
       persons.add( moritz );
       persons.add( holger );
       persons.add( jordi );
+      persons.add( jochen );
       persons.add( tim );
+      persons.add( mysterion );
     }
     return persons;
   }
