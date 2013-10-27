@@ -19,8 +19,15 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TableItem;
 
@@ -29,18 +36,54 @@ import com.eclipsesource.rowtemplate.demo.templates.ExampleTemplate;
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
 
+  private Control exampleControl;
+  private Listener createGrid;
+  private Combo templateCombo;
+
   @Override
-  protected void createContents( Composite parent ) {
-    parent.setLayout( new FillLayout() );
+  protected void createContents( final Composite parent ) {
+    createGrid = new Listener() {
+      @Override
+      public void handleEvent( Event event ) {
+        createGrid( parent );
+        parent.layout();
+      }
+    };
+    parent.setLayout( new GridLayout( 1, true ) );
+    Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
+    label.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
+    createConfigArea( parent );
+    createGrid( parent );
+  }
+
+  private void createConfigArea( Composite parent ) {
+    Composite area = new Composite( parent, SWT.NONE );
+    area.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, false ) );
+    area.setLayout( new RowLayout() );
+    templateCombo = new Combo( area, SWT.READ_ONLY );
+    templateCombo.setItems( new String[] { "no template", "ExampleTemplate" } );
+    templateCombo.select( 1 );
+    templateCombo.addListener( SWT.Selection, createGrid );
+  }
+
+  private void createGrid( Composite parent ) {
+    if( exampleControl != null ) {
+      exampleControl.dispose();
+    }
     TableViewer tableViewer = new TableViewer( parent, SWT.NONE );
+    tableViewer.getTable().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
     tableViewer.getTable().setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 92 ) );
+    exampleControl = tableViewer.getTable();
+    exampleControl.moveAbove( null );
     tableViewer.setContentProvider( new ArrayContentProvider() );
     addFirstNameColumn( tableViewer );
     addLastNameColumn( tableViewer );
     addFooColumn( tableViewer );
     tableViewer.setInput( Persons.get( parent.getDisplay() ) );
-    RowTemplate rowTemplate = new ExampleTemplate( tableViewer );
-    tableViewer.getTable().setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
+    if( templateCombo.getSelectionIndex() == 1 ) {
+      RowTemplate rowTemplate = new ExampleTemplate( tableViewer );
+      tableViewer.getTable().setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
+    }
     addListener( parent, tableViewer );
   }
 
