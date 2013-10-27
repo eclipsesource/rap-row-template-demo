@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.eclipsesource.rowtemplate.demo.templates;
 
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.rap.rwt.internal.template.Cell.CellAlignment;
 import org.eclipse.rap.rwt.internal.template.ImageCell;
 import org.eclipse.rap.rwt.internal.template.ImageCell.ScaleMode;
@@ -20,13 +19,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
 @SuppressWarnings("restriction")
 public class ExampleTemplate extends RowTemplate {
-  public ExampleTemplate( TableViewer tableViewer ) {
+  public ExampleTemplate( Control target ) {
     super();
-    Display display = tableViewer.getTable().getDisplay();
+    Display display = target.getDisplay();
     ImageCell imageCell = new ImageCell( this );
     imageCell.setAlignment( CellAlignment.BOTTOM, CellAlignment.TOP );
     imageCell.setBindingIndex( 0 );
@@ -50,7 +50,7 @@ public class ExampleTemplate extends RowTemplate {
     firstNameCell.setSelectable( true );
     firstNameCell.setWrap( true );
     firstNameCell.setForeground( display.getSystemColor( SWT.COLOR_RED ) );
-    Font font = tableViewer.getTable().getFont();
+    Font font = target.getFont();
     FontData fontData = font.getFontData()[ 0 ];
     fontData.setHeight( 15 );
     fontData.setStyle( SWT.BOLD );
@@ -65,7 +65,7 @@ public class ExampleTemplate extends RowTemplate {
     lastNameCell.setBottom( 8 );
     lastNameCell.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
     lastNameCell.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
-    FontData lastNameFont = tableViewer.getTable().getFont().getFontData()[ 0 ];
+    FontData lastNameFont = target.getFont().getFontData()[ 0 ];
     lastNameFont.setHeight( 16 );
     lastNameFont.setStyle( SWT.ITALIC );
     lastNameCell.setFont( new Font( display, lastNameFont ) );
@@ -79,7 +79,7 @@ public class ExampleTemplate extends RowTemplate {
     likeCell.setSelectable( true );
     ImageCell phone = new ImageCell( this );
     phone.setAlignment( CellAlignment.RIGHT );
-    final Image phoneImage = new Image( tableViewer.getTable().getDisplay(),
+    final Image phoneImage = new Image( display,
                                         ExampleTemplate.class.getResourceAsStream( "/phone.png" ) );
     phone.setDefaultImage( phoneImage );
     phone.setTop( 8 );

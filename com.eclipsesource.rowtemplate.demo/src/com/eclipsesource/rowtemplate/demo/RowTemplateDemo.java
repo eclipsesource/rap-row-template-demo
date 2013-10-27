@@ -9,8 +9,14 @@ package com.eclipsesource.rowtemplate.demo;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerColumn;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
@@ -36,9 +42,40 @@ import com.eclipsesource.rowtemplate.demo.templates.ExampleTemplate;
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
 
+  private final class SelectionListener extends SelectionAdapter {
+
+    private final Composite parent;
+
+    private SelectionListener( Composite parent ) {
+      this.parent = parent;
+    }
+
+    @Override
+    public void widgetSelected( SelectionEvent e ) {
+      if( "phone".equals( e.text ) ) {
+        MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
+        messageBox.setText( "Dialing..." );
+        TableItem item = ( TableItem )e.item;
+        String firstName = item.getText( 0 );
+        messageBox.setMessage( "Calling " + firstName + "!" );
+        DialogUtil.open( messageBox, null );
+      } else if( "like".equals( e.text ) ) {
+        MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
+        messageBox.setText( "I Like You" );
+        TableItem item = ( TableItem )e.item;
+        String firstName = item.getText( 0 );
+        messageBox.setMessage( "Liking " + firstName + " on FB!" );
+        DialogUtil.open( messageBox, null );
+      } else if( "firstname".equals( e.text ) ) {
+        System.out.println( "Clicking firstname" );
+      }
+    }
+  }
+
   private Control exampleControl;
   private Listener createGrid;
   private Combo templateCombo;
+  private Combo controlCombo;
 
   @Override
   protected void createContents( final Composite parent ) {
@@ -63,42 +100,88 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     templateCombo = new Combo( area, SWT.READ_ONLY );
     templateCombo.setItems( new String[] { "no template", "ExampleTemplate" } );
     templateCombo.select( 1 );
+    controlCombo = new Combo( area, SWT.READ_ONLY );
+    controlCombo.setItems( new String[] { "Table", "Tree" } );
+    controlCombo.select( 0 );
     templateCombo.addListener( SWT.Selection, createGrid );
+    controlCombo.addListener( SWT.Selection, createGrid );
   }
 
   private void createGrid( Composite parent ) {
     if( exampleControl != null ) {
       exampleControl.dispose();
     }
-    TableViewer tableViewer = new TableViewer( parent, SWT.NONE );
-    tableViewer.getTable().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
-    tableViewer.getTable().setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 92 ) );
-    exampleControl = tableViewer.getTable();
-    exampleControl.moveAbove( null );
-    tableViewer.setContentProvider( new ArrayContentProvider() );
-    addFirstNameColumn( tableViewer );
-    addLastNameColumn( tableViewer );
-    addFooColumn( tableViewer );
-    tableViewer.setInput( Persons.get( parent.getDisplay() ) );
-    if( templateCombo.getSelectionIndex() == 1 ) {
-      RowTemplate rowTemplate = new ExampleTemplate( tableViewer );
-      tableViewer.getTable().setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
+    switch( controlCombo.getSelectionIndex() ) {
+      case 0:
+        createTable( parent );
+      break;
+      case 1:
+        createTree( parent );
+      break;
     }
-    addListener( parent, tableViewer );
+    exampleControl.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+    exampleControl.setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 92 ) );
+    if( templateCombo.getSelectionIndex() == 1 ) {
+      RowTemplate rowTemplate = new ExampleTemplate( exampleControl );
+      exampleControl.setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
+    }
+    exampleControl.moveAbove( null );
   }
 
-  private void addFirstNameColumn( final TableViewer tableViewer ) {
-    TableViewerColumn firstNameColumn = new TableViewerColumn( tableViewer, SWT.NONE );
-    firstNameColumn.getColumn().setWidth( 200 );
-    firstNameColumn.getColumn().setText( "Firstname" );
-    firstNameColumn.setLabelProvider( new ColumnLabelProvider() {
+  private void createTable( Composite parent ) {
+    TableViewer tableViewer = new TableViewer( parent, SWT.NONE );
+    exampleControl = tableViewer.getTable();
+    tableViewer.setContentProvider( new ArrayContentProvider() );
+    configColumnViewer( tableViewer );
+    tableViewer.getTable().addSelectionListener( new SelectionListener( parent ) );
+  }
 
+  private void createTree( Composite parent ) {
+    TreeViewer treeViewer = new TreeViewer( parent, SWT.NONE );
+    exampleControl = treeViewer.getTree();
+    treeViewer.setContentProvider( new ITreeContentProvider() {
+      @Override
+      public void inputChanged( Viewer viewer, Object oldInput, Object newInput ) {
+      }
+      @Override
+      public void dispose() {
+      }
+      @Override
+      public boolean hasChildren( Object element ) {
+        return ( ( Person )element ).getChildren() != null;
+      }
+      @Override
+      public Object getParent( Object element ) {
+        return null;
+      }
+      @Override
+      public Object[] getElements( Object inputElement ) {
+        return ( Person[] )inputElement;
+      }
+      @Override
+      public Object[] getChildren( Object parentElement ) {
+        return ( ( Person )parentElement ).getChildren();
+      }
+    } );
+    configColumnViewer( treeViewer );
+    treeViewer.getTree().addSelectionListener( new SelectionListener( parent ) );
+  }
+
+  private void configColumnViewer( ColumnViewer viewer ) {
+    addFirstNameColumn( viewer );
+    addLastNameColumn( viewer );
+    addFooColumn( viewer );
+    viewer.setInput( Persons.get( viewer.getControl().getDisplay() ) );
+  }
+
+  private void addFirstNameColumn( final ColumnViewer viewer ) {
+    ViewerColumn firstNameColumn = createViewerColumn( viewer, "First Name", 200 );
+    firstNameColumn.setLabelProvider( new ColumnLabelProvider() {
       @Override
       public String getText( Object element ) {
         Person p = ( Person )element;
         return p.getFirstName();
       }
-
       @Override
       public Image getImage( Object element ) {
         Person p = ( Person )element;
@@ -107,38 +190,9 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     } );
   }
 
-  private void addListener( final Composite parent, TableViewer tableViewer ) {
-    tableViewer.getTable().addSelectionListener( new SelectionAdapter() {
-
-      @Override
-      public void widgetSelected( SelectionEvent e ) {
-        if( "phone".equals( e.text ) ) {
-          MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
-          messageBox.setText( "Dialing..." );
-          TableItem item = ( TableItem )e.item;
-          String firstName = item.getText( 0 );
-          messageBox.setMessage( "Calling " + firstName + "!" );
-          DialogUtil.open( messageBox, null );
-        } else if( "like".equals( e.text ) ) {
-          MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
-          messageBox.setText( "I Like You" );
-          TableItem item = ( TableItem )e.item;
-          String firstName = item.getText( 0 );
-          messageBox.setMessage( "Liking " + firstName + " on FB!" );
-          DialogUtil.open( messageBox, null );
-        } else if( "firstname".equals( e.text ) ) {
-          System.out.println( "Clicking firstname" );
-        }
-      }
-    } );
-  }
-
-  private void addLastNameColumn( TableViewer tableViewer ) {
-    TableViewerColumn lastNameColumn = new TableViewerColumn( tableViewer, SWT.NONE );
-    lastNameColumn.getColumn().setWidth( 200 );
-    lastNameColumn.getColumn().setText( "Firstname" );
+  private void addLastNameColumn( ColumnViewer viewer ) {
+    ViewerColumn lastNameColumn = createViewerColumn( viewer, "Last Name", 200 );
     lastNameColumn.setLabelProvider( new ColumnLabelProvider() {
-
       @Override
       public String getText( Object element ) {
         Person p = ( Person )element;
@@ -147,16 +201,32 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     } );
   }
 
-  private void addFooColumn( TableViewer tableViewer ) {
-    TableViewerColumn fooColumn = new TableViewerColumn( tableViewer, SWT.NONE );
-    fooColumn.getColumn().setWidth( 200 );
-    fooColumn.getColumn().setText( "Foo" );
+  private void addFooColumn( ColumnViewer viewer ) {
+    ViewerColumn fooColumn = createViewerColumn( viewer, "Foo", 200 );
     fooColumn.setLabelProvider( new ColumnLabelProvider() {
-
       @Override
       public String getText( Object element ) {
         return "foo";
       }
     } );
   }
+
+  private ViewerColumn createViewerColumn( final ColumnViewer viewer, String name, int width ) {
+    ViewerColumn viewerColumn = null;
+    if( viewer instanceof TableViewer ) {
+      TableViewer tableViewer = ( TableViewer )viewer;
+      TableViewerColumn tableColumn = new TableViewerColumn( tableViewer, SWT.NONE );
+      tableColumn.getColumn().setWidth( width );
+      tableColumn.getColumn().setText( name );
+      viewerColumn = tableColumn;
+    } else if( viewer instanceof TreeViewer ) {
+      TreeViewer treeViewer = ( TreeViewer )viewer;
+      TreeViewerColumn treeColumn = new TreeViewerColumn( treeViewer, SWT.NONE );
+      treeColumn.getColumn().setWidth( width );
+      treeColumn.getColumn().setText( name );
+      viewerColumn = treeColumn;
+    }
+    return viewerColumn;
+  }
+
 }

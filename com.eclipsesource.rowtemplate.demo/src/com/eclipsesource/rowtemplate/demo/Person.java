@@ -14,11 +14,17 @@ public class Person {
   private final String firstName;
   private final String lastName;
   private final Image image;
+  private final Person[] children;
 
   public Person( String firstName, String lastName, Image image ) {
+    this( firstName, lastName, image, null );
+  }
+
+  public Person( String firstName, String lastName, Image image, Person[] children ) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.image = image;
+    this.children = children;
   }
 
   public String getFirstName() {
@@ -31,5 +37,9 @@ public class Person {
 
   public Image getImage() {
     return image;
+  }
+
+  public Person[] getChildren() {
+    return children;
   }
 }

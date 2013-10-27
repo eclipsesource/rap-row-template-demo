@@ -26,7 +26,10 @@ public class Persons {
     List<Person> persons = new ArrayList<Person>();
     Person ian = new Person( "Ian", "Bull", loadImage( display, "/ian.jpg" ) );
     Person mysterion = new Person( "Mysterion", null, null );
-    Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpg" ) );
+    Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpg" ), new Person[] {
+      new Person( "Fictional Child 1", "Post", null ),
+      new Person( "Fictional Child 2", "Post", null )
+    } );
     Person jochen = new Person( "Jochen", "Krause", loadImage( display, "/jochen.jpg" ) );
     Person holger = new Person( "Holger", "Staudacher.", loadImage( display, "/holger.jpg" ) );
     Person jordi = new Person( "Jordi", "Böhme", loadImage( display, "/jordi.jpg" ) );
