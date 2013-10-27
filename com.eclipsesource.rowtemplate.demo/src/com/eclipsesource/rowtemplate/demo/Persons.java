@@ -25,7 +25,7 @@ public class Persons {
   private static List<Person> getPersons( Display display ) {
     List<Person> persons = new ArrayList<Person>();
     Person ian = new Person( "Ian", "Bull", loadImage( display, "/ian.jpg" ) );
-    Person mysterion = new Person( "Mysterion", null, null );
+    Person mysterion = new Person( "Mysterion, <i>The Great and Powerful</i>, master of the dark underverse of hellishly long names", null, null );
     Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpg" ), new Person[] {
       new Person( "Fictional Child 1", "Post", null ),
       new Person( "Fictional Child 2", "Post", null )

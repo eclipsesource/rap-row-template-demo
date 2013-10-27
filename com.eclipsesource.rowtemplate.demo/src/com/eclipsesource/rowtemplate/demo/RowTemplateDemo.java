@@ -28,6 +28,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -76,6 +77,9 @@ public class RowTemplateDemo extends AbstractEntryPoint {
   private Listener createGrid;
   private Combo templateCombo;
   private Combo controlCombo;
+  private Button fullSelection;
+  private Button headerVisible;
+  private Button markup;
 
   @Override
   protected void createContents( final Composite parent ) {
@@ -103,8 +107,17 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     controlCombo = new Combo( area, SWT.READ_ONLY );
     controlCombo.setItems( new String[] { "Table", "Tree" } );
     controlCombo.select( 0 );
+    fullSelection = new Button( area, SWT.CHECK );
+    fullSelection.setText( "FULL_SELECTION" );
+    markup = new Button( area, SWT.CHECK );
+    markup.setText( "MARKUP_ENABLED" );
+    headerVisible = new Button( area, SWT.CHECK );
+    headerVisible.setText( "header" );
     templateCombo.addListener( SWT.Selection, createGrid );
     controlCombo.addListener( SWT.Selection, createGrid );
+    fullSelection.addListener( SWT.Selection, createGrid );
+    headerVisible.addListener( SWT.Selection, createGrid );
+    markup.addListener( SWT.Selection, createGrid );
   }
 
   private void createGrid( Composite parent ) {
@@ -120,24 +133,27 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       break;
     }
     exampleControl.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
-    exampleControl.setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 92 ) );
+    exampleControl.setData( RWT.MARKUP_ENABLED, Boolean.valueOf( markup.getSelection() ) );
     if( templateCombo.getSelectionIndex() == 1 ) {
       RowTemplate rowTemplate = new ExampleTemplate( exampleControl );
       exampleControl.setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
+      exampleControl.setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 92 ) );
     }
     exampleControl.moveAbove( null );
   }
 
   private void createTable( Composite parent ) {
-    TableViewer tableViewer = new TableViewer( parent, SWT.NONE );
+    TableViewer tableViewer = new TableViewer( parent, getStyle() );
     exampleControl = tableViewer.getTable();
     tableViewer.setContentProvider( new ArrayContentProvider() );
     configColumnViewer( tableViewer );
+    tableViewer.getTable().setHeaderVisible( headerVisible.getSelection() );
+    tableViewer.getTable().setLinesVisible( headerVisible.getSelection() );
     tableViewer.getTable().addSelectionListener( new SelectionListener( parent ) );
   }
 
   private void createTree( Composite parent ) {
-    TreeViewer treeViewer = new TreeViewer( parent, SWT.NONE );
+    TreeViewer treeViewer = new TreeViewer( parent, getStyle() );
     exampleControl = treeViewer.getTree();
     treeViewer.setContentProvider( new ITreeContentProvider() {
       @Override
@@ -165,6 +181,13 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     } );
     configColumnViewer( treeViewer );
     treeViewer.getTree().addSelectionListener( new SelectionListener( parent ) );
+    treeViewer.getTree().setHeaderVisible( headerVisible.getSelection() );
+    treeViewer.getTree().setLinesVisible( headerVisible.getSelection() );
+  }
+
+  private int getStyle() {
+    int style = fullSelection.getSelection() ? SWT.FULL_SELECTION : SWT.NONE;
+    return style;
   }
 
   private void configColumnViewer( ColumnViewer viewer ) {
