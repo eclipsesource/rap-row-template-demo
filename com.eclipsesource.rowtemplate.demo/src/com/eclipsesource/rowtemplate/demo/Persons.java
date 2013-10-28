@@ -24,16 +24,16 @@ public class Persons {
 
   private static List<Person> getPersons( Display display ) {
     List<Person> persons = new ArrayList<Person>();
-    Person ian = new Person( "Ian", "Bull", loadImage( display, "/ian.jpg" ) );
-    Person mysterion = new Person( "Mysterion, <i>The Great and Powerful</i>, master of the dark underverse of hellishly long names", null, null );
-    Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpg" ), new Person[] {
+    Person ian = new Person( "Ian", "Bull", loadImage( display, "/ian.jpg" ), "+1 555 123456", "ian@mail.domain" );
+    Person mysterion = new Person( "Mysterion, <i>The Great and Powerful</i>, master of the dark underverse of hellishly long names", null, null, "+666", "service@apple.ms" );
+    Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpg" ), "+49 555 555", "moritz@mail.domain", new Person[] {
       new Person( "Fictional Child 1", "Post", null ),
       new Person( "Fictional Child 2", "Post", null )
     } );
-    Person jochen = new Person( "Jochen", "Krause", loadImage( display, "/jochen.jpg" ) );
-    Person holger = new Person( "Holger", "Staudacher.", loadImage( display, "/holger.jpg" ) );
-    Person jordi = new Person( "Jordi", "Böhme", loadImage( display, "/jordi.jpg" ) );
-    Person tim = new Person( "Tim", "Buschtöns", loadImage( display, "/tim.jpg" ) );
+    Person jochen = new Person( "Jochen", "Krause", loadImage( display, "/jochen.jpg" ), "+49 555 444", "jochen@mail.domain" );
+    Person holger = new Person( "Holger", "Staudacher", loadImage( display, "/holger.jpg" ), "+49 555 333", "holger@mail.domain" );
+    Person jordi = new Person( "Jordi", "Böhme", loadImage( display, "/jordi.jpg" ), "+49 555 333", "jordi@mail.domain" );
+    Person tim = new Person( "Tim", "Buschtöns", loadImage( display, "/tim.jpg" ), "+49 555 222", "tim@mail.domain" );
     for( int i = 0; i < 10; i++ ) {
       persons.add( ian );
       persons.add( moritz );

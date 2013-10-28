@@ -193,6 +193,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
   private void configColumnViewer( ColumnViewer viewer ) {
     addFirstNameColumn( viewer );
     addLastNameColumn( viewer );
+    addPhoneColumn( viewer );
+    addMailColumn( viewer );
     addFooColumn( viewer );
     viewer.setInput( Persons.get( viewer.getControl().getDisplay() ) );
   }
@@ -220,6 +222,28 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       public String getText( Object element ) {
         Person p = ( Person )element;
         return p.getLastName();
+      }
+    } );
+  }
+
+  private void addPhoneColumn( ColumnViewer viewer ) {
+    ViewerColumn pohoneColumn = createViewerColumn( viewer, "Phone", 130 );
+    pohoneColumn.setLabelProvider( new ColumnLabelProvider() {
+      @Override
+      public String getText( Object element ) {
+        Person p = ( Person )element;
+        return p.getPhone();
+      }
+    } );
+  }
+
+  private void addMailColumn( ColumnViewer viewer ) {
+    ViewerColumn pohoneColumn = createViewerColumn( viewer, "E-Mail", 180 );
+    pohoneColumn.setLabelProvider( new ColumnLabelProvider() {
+      @Override
+      public String getText( Object element ) {
+        Person p = ( Person )element;
+        return p.getMail();
       }
     } );
   }

@@ -15,15 +15,23 @@ public class Person {
   private final String lastName;
   private final Image image;
   private final Person[] children;
+  private final String phone;
+  private final String mail;
 
   public Person( String firstName, String lastName, Image image ) {
-    this( firstName, lastName, image, null );
+    this( firstName, lastName, image, null, null, null );
   }
 
-  public Person( String firstName, String lastName, Image image, Person[] children ) {
+  public Person( String firstName, String lastName, Image image, String phone, String mail ) {
+    this( firstName, lastName, image, phone, mail, null );
+  }
+
+  public Person( String firstName, String lastName, Image image, String phone, String mail, Person[] children ) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.image = image;
+    this.phone = phone;
+    this.mail = mail;
     this.children = children;
   }
 
@@ -37,6 +45,14 @@ public class Person {
 
   public Image getImage() {
     return image;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public String getMail() {
+    return mail;
   }
 
   public Person[] getChildren() {
