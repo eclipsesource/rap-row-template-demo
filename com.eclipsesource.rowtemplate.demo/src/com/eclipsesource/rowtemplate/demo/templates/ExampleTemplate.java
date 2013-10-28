@@ -19,14 +19,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
 @SuppressWarnings("restriction")
 public class ExampleTemplate extends RowTemplate {
-  public ExampleTemplate( Control target ) {
+  public ExampleTemplate( Font defaultFont ) {
     super();
-    Display display = target.getDisplay();
+    Display display = Display.getCurrent();
     ImageCell imageCell = new ImageCell( this );
     imageCell.setAlignment( CellAlignment.BOTTOM, CellAlignment.TOP );
     imageCell.setBindingIndex( 0 );
@@ -50,11 +49,10 @@ public class ExampleTemplate extends RowTemplate {
     firstNameCell.setSelectable( true );
     firstNameCell.setWrap( true );
     firstNameCell.setForeground( display.getSystemColor( SWT.COLOR_RED ) );
-    Font font = target.getFont();
-    FontData fontData = font.getFontData()[ 0 ];
+    FontData fontData = defaultFont.getFontData()[ 0 ];
     fontData.setHeight( 15 );
     fontData.setStyle( SWT.BOLD );
-    font = new Font( display, fontData );
+    Font font = new Font( display, fontData );
     firstNameCell.setFont( font );
     TextCell lastNameCell = new TextCell( this );
     lastNameCell.setAlignment( CellAlignment.LEFT );
@@ -65,7 +63,7 @@ public class ExampleTemplate extends RowTemplate {
     lastNameCell.setBottom( 8 );
     lastNameCell.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
     lastNameCell.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
-    FontData lastNameFont = target.getFont().getFontData()[ 0 ];
+    FontData lastNameFont = font.getFontData()[ 0 ];
     lastNameFont.setHeight( 16 );
     lastNameFont.setStyle( SWT.ITALIC );
     lastNameCell.setFont( new Font( display, lastNameFont ) );

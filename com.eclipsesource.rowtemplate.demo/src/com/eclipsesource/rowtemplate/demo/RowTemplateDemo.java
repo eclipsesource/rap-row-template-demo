@@ -24,6 +24,7 @@ import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -39,6 +40,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TableItem;
 
 import com.eclipsesource.rowtemplate.demo.templates.ExampleTemplate;
+import com.eclipsesource.rowtemplate.demo.templates.PrettyTemplate;
 
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
@@ -80,6 +82,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
   private Button fullSelection;
   private Button headerVisible;
   private Button markup;
+  private Integer[] templateHeights;
+  private RowTemplate[] templates;
 
   @Override
   protected void createContents( final Composite parent ) {
@@ -90,7 +94,16 @@ public class RowTemplateDemo extends AbstractEntryPoint {
         parent.layout();
       }
     };
-    parent.setLayout( new GridLayout( 1, true ) );
+    GridLayout layout = new GridLayout( 1, true );
+    layout.marginLeft = 0;
+    layout.marginTop = 0;
+    layout.marginRight = 0;
+    layout.marginBottom = 0;
+    layout.horizontalSpacing = 0;
+    layout.verticalSpacing = 0;
+    layout.marginWidth = 0;
+    layout.marginHeight = 0;
+    parent.setLayout( layout );
     Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
     label.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, false ) );
     createConfigArea( parent );
@@ -102,7 +115,14 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     area.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, false ) );
     area.setLayout( new RowLayout() );
     templateCombo = new Combo( area, SWT.READ_ONLY );
-    templateCombo.setItems( new String[] { "no template", "ExampleTemplate" } );
+    templateCombo.setItems( new String[] { "no template", "ExampleTemplate", "PrettyTemplate" } );
+    Font defaultFont = parent.getFont();
+    templates = new RowTemplate[] {
+      null,
+      new ExampleTemplate( defaultFont ),
+      new PrettyTemplate( defaultFont )
+    };
+    templateHeights = new Integer[]{ null, Integer.valueOf( 92 ), Integer.valueOf( 56 ) };
     templateCombo.select( 1 );
     controlCombo = new Combo( area, SWT.READ_ONLY );
     controlCombo.setItems( new String[] { "Table", "Tree" } );
@@ -134,11 +154,9 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     }
     exampleControl.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
     exampleControl.setData( RWT.MARKUP_ENABLED, Boolean.valueOf( markup.getSelection() ) );
-    if( templateCombo.getSelectionIndex() == 1 ) {
-      RowTemplate rowTemplate = new ExampleTemplate( exampleControl );
-      exampleControl.setData( RowTemplate.ROW_TEMPLATE, rowTemplate );
-      exampleControl.setData( RWT.CUSTOM_ITEM_HEIGHT, Integer.valueOf( 92 ) );
-    }
+    int tempalteIndex = templateCombo.getSelectionIndex();
+    exampleControl.setData( RowTemplate.ROW_TEMPLATE, templates[ tempalteIndex ] );
+    exampleControl.setData( RWT.CUSTOM_ITEM_HEIGHT, templateHeights[ tempalteIndex ] );
     exampleControl.moveAbove( null );
   }
 
