@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerColumn;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
+import org.eclipse.rap.rwt.client.service.UrlLauncher;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
 import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
@@ -56,22 +57,35 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     @Override
     public void widgetSelected( SelectionEvent e ) {
       if( "phone".equals( e.text ) ) {
-        MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
-        messageBox.setText( "Dialing..." );
+        TableItem item = ( TableItem )e.item;
+        alert( "Dialing...", "Calling " + item.getText( 2 ) + "!" );
+      } else if( "mail".equals( e.text ) ) {
+        String mail = ( ( TableItem )e.item ).getText( 3 );
+        String firstName = ( ( TableItem )e.item ).getText( 0 );
+        UrlLauncher launcher = RWT.getClient().getService( UrlLauncher.class );
+        if( launcher != null ) {
+          launcher.openURL( "mailto:" + mail + "?subject=RAP%20Rocks!&body=Hello%20" + firstName );
+        } else {
+          alert( "Now mailing to...", mail );
+        }
+      } else if( "arrow".equals( e.text ) ) {
         TableItem item = ( TableItem )e.item;
         String firstName = item.getText( 0 );
-        messageBox.setMessage( "Calling " + firstName + "!" );
-        DialogUtil.open( messageBox, null );
+        alert( "Nothing here", "Lets edit " + firstName + "!" );
       } else if( "like".equals( e.text ) ) {
-        MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
-        messageBox.setText( "I Like You" );
         TableItem item = ( TableItem )e.item;
         String firstName = item.getText( 0 );
-        messageBox.setMessage( "Liking " + firstName + " on FB!" );
-        DialogUtil.open( messageBox, null );
+        alert( "I Like You", "Liking " + firstName + " on FB!" );
       } else if( "firstname".equals( e.text ) ) {
         System.out.println( "Clicking firstname" );
       }
+    }
+
+    private void alert( String title, String message ) {
+      MessageBox messageBox = new MessageBox( parent.getShell(), SWT.ICON_INFORMATION );
+      messageBox.setText( title );
+      messageBox.setMessage( message );
+      DialogUtil.open( messageBox, null );
     }
   }
 

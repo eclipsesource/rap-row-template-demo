@@ -31,40 +31,27 @@ public class PrettyTemplate extends RowTemplate {
     createImageCell();
     createLastNameCell();
     createFirstNameCell();
-//    createLikeCell();
     createMailLabelCell();
     createMailCell();
     createPhoneLabelCell();
     createSeparatorCell(); // TODO [tb] : do by theming
     createPhoneCell();
-    createPhoneIconCell();
+    createArrowIconCell();
   }
 
-  private void createPhoneIconCell() {
-    ImageCell phone = new ImageCell( this );
-    phone.setAlignment( CellAlignment.RIGHT );
-    final Image phoneImage = new Image( Display.getCurrent(),
-                                        PrettyTemplate.class.getResourceAsStream( "/phone.png" ) );
-    phone.setDefaultImage( phoneImage );
-    phone.setTop( 8 );
-    phone.setWidth( 48 );
-    phone.setRight( 16 );
-    phone.setBottom( 8 );
-    phone.setName( "phone" );
-    phone.setSelectable( true );
+  private void createArrowIconCell() {
+    ImageCell arrow = new ImageCell( this );
+    arrow.setAlignment( CellAlignment.RIGHT );
+    final Image arrowImage = new Image( Display.getCurrent(),
+                                        PrettyTemplate.class.getResourceAsStream( "/right.png" ) );
+    arrow.setDefaultImage( arrowImage );
+    arrow.setTop( 8 );
+    arrow.setWidth( 48 );
+    arrow.setRight( 8 );
+    arrow.setBottom( 8 );
+    arrow.setName( "arrow" );
+    arrow.setSelectable( true );
   }
-
-  private void createLikeCell() {
-    TextCell likeCell = new TextCell( this );
-    likeCell.setLeft( 4 );
-    likeCell.setWidth( 80 );
-    likeCell.setBottom( 2 );
-    likeCell.setHeight( 20 );
-    likeCell.setDefaultText( "Like On FB" );
-    likeCell.setName( "like" );
-    likeCell.setSelectable( true );
-  }
-
 
   private void createLastNameCell() {
     TextCell lastNameCell = new TextCell( this );
@@ -111,8 +98,10 @@ public class PrettyTemplate extends RowTemplate {
     phoneCell.setBindingIndex( 2 );
     phoneCell.setLeft( 310 );
     phoneCell.setTop( 30 );
-    phoneCell.setRight( 8 );
+    phoneCell.setWidth( 150 );
     phoneCell.setBottom( 8 );
+    phoneCell.setName( "phone" );
+    phoneCell.setSelectable( true );
   }
 
   private void createMailLabelCell() {
@@ -135,8 +124,10 @@ public class PrettyTemplate extends RowTemplate {
     phoneCell.setBindingIndex( 3 );
     phoneCell.setLeft( 310 );
     phoneCell.setTop( 8 );
-    phoneCell.setRight( 8 );
+    phoneCell.setWidth( 150 );
     phoneCell.setBottom( 8 );
+    phoneCell.setName( "mail" );
+    phoneCell.setSelectable( true );
   }
 
   private void createImageCell() {
