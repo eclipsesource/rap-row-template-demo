@@ -149,7 +149,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       Integer.valueOf( 56 ),
       Integer.valueOf( 92 )
     };
-    templateCombo.select( 1 );
+    templateCombo.select( 2 );
     controlCombo = new Combo( area, SWT.READ_ONLY );
     controlCombo.setItems( new String[] { "Table", "Tree" } );
     controlCombo.select( 0 );
