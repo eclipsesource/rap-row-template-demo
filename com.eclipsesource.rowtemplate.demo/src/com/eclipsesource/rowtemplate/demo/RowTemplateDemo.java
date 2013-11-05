@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.TableItem;
 import com.eclipsesource.rowtemplate.demo.templates.ExampleTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.PrettyTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.TextAlignmentTemplate;
+import com.eclipsesource.rowtemplate.demo.templates.TextWrapTemplate;
 
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
@@ -134,20 +135,23 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       "no template",
       "ExampleTemplate",
       "PrettyTemplate",
-      "TextAlignmentTempalte"
+      "TextAlignmentTempalte",
+      "TextWrapTempalte"
     } );
     Font defaultFont = parent.getFont();
     templates = new RowTemplate[] {
       null,
       new ExampleTemplate( defaultFont ),
       new PrettyTemplate( defaultFont ),
-      new TextAlignmentTemplate()
+      new TextAlignmentTemplate(),
+      new TextWrapTemplate()
     };
-    templateHeights = new Integer[]{
+    templateHeights = new Integer[] {
       null,
       Integer.valueOf( 92 ),
       Integer.valueOf( 56 ),
-      Integer.valueOf( 92 )
+      Integer.valueOf( 60 ),
+      Integer.valueOf( 100 )
     };
     templateCombo.select( 2 );
     controlCombo = new Combo( area, SWT.READ_ONLY );
