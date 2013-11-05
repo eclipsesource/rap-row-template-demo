@@ -55,7 +55,7 @@ public class PrettyTemplate extends RowTemplate {
 
   private void createLastNameCell() {
     TextCell lastNameCell = new TextCell( this );
-    lastNameCell.setAlignment( CellAlignment.RIGHT, CellAlignment.BOTTOM );
+    lastNameCell.setAlignment( CellAlignment.LEFT, CellAlignment.TOP );
     lastNameCell.setBindingIndex( 1 );
     lastNameCell.setLeft( 60 );
     lastNameCell.setTop( 5 );
