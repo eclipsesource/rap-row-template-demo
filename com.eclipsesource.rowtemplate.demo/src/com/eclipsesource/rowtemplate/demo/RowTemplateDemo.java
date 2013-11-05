@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 import com.eclipsesource.rowtemplate.demo.templates.ExampleTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.PrettyTemplate;
+import com.eclipsesource.rowtemplate.demo.templates.TextAlignmentTemplate;
 
 @SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
@@ -129,14 +130,25 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     area.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, false ) );
     area.setLayout( new RowLayout() );
     templateCombo = new Combo( area, SWT.READ_ONLY );
-    templateCombo.setItems( new String[] { "no template", "ExampleTemplate", "PrettyTemplate" } );
+    templateCombo.setItems( new String[] {
+      "no template",
+      "ExampleTemplate",
+      "PrettyTemplate",
+      "TextAlignmentTempalte"
+    } );
     Font defaultFont = parent.getFont();
     templates = new RowTemplate[] {
       null,
       new ExampleTemplate( defaultFont ),
-      new PrettyTemplate( defaultFont )
+      new PrettyTemplate( defaultFont ),
+      new TextAlignmentTemplate()
     };
-    templateHeights = new Integer[]{ null, Integer.valueOf( 92 ), Integer.valueOf( 56 ) };
+    templateHeights = new Integer[]{
+      null,
+      Integer.valueOf( 92 ),
+      Integer.valueOf( 56 ),
+      Integer.valueOf( 92 )
+    };
     templateCombo.select( 1 );
     controlCombo = new Combo( area, SWT.READ_ONLY );
     controlCombo.setItems( new String[] { "Table", "Tree" } );
