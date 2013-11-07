@@ -323,13 +323,13 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     if( viewer instanceof TableViewer ) {
       TableViewer tableViewer = ( TableViewer )viewer;
       TableViewerColumn tableColumn = new TableViewerColumn( tableViewer, SWT.NONE );
-      tableColumn.getColumn().setWidth( width );
+      //tableColumn.getColumn().setWidth( width );
       tableColumn.getColumn().setText( name );
       viewerColumn = tableColumn;
     } else if( viewer instanceof TreeViewer ) {
       TreeViewer treeViewer = ( TreeViewer )viewer;
       TreeViewerColumn treeColumn = new TreeViewerColumn( treeViewer, SWT.NONE );
-      treeColumn.getColumn().setWidth( width );
+      //treeColumn.getColumn().setWidth( width );
       treeColumn.getColumn().setText( name );
       viewerColumn = treeColumn;
     }

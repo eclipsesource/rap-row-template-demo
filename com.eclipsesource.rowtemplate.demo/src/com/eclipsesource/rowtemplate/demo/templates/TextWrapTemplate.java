@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.eclipsesource.rowtemplate.demo.templates;
 
-import org.eclipse.rap.rwt.internal.template.Cell.CellAlignment;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
 import org.eclipse.rap.rwt.internal.template.TextCell;
 import org.eclipse.swt.SWT;
@@ -22,7 +21,8 @@ public class TextWrapTemplate extends RowTemplate {
     super();
     Display display = Display.getCurrent();
     TextCell firstNameLeft = new TextCell( this );
-    firstNameLeft.setAlignment( CellAlignment.LEFT, CellAlignment.TOP );
+    firstNameLeft.setHorizontalAlignment( SWT.LEFT );
+    firstNameLeft.setVerticalAlignment( SWT.TOP );
     firstNameLeft.setBindingIndex( 0 );
     firstNameLeft.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
     firstNameLeft.setLeft( 4 );
@@ -33,7 +33,8 @@ public class TextWrapTemplate extends RowTemplate {
     firstNameLeft.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
     firstNameLeft.setWrap( true );
     TextCell firstNameCenter = new TextCell( this );
-    firstNameCenter.setAlignment( CellAlignment.H_CENTER, CellAlignment.TOP );
+    firstNameCenter.setHorizontalAlignment( SWT.CENTER );
+    firstNameCenter.setVerticalAlignment( SWT.TOP );
     firstNameCenter.setBindingIndex( 0 );
     firstNameCenter.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
     firstNameCenter.setLeft( 158 );
@@ -44,7 +45,8 @@ public class TextWrapTemplate extends RowTemplate {
     firstNameCenter.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
     firstNameCenter.setWrap( true );
     TextCell firstNameRight = new TextCell( this );
-    firstNameRight.setAlignment( CellAlignment.RIGHT, CellAlignment.TOP );
+    firstNameRight.setHorizontalAlignment( SWT.RIGHT );
+    firstNameRight.setVerticalAlignment( SWT.TOP );
     firstNameRight.setBindingIndex( 0 );
     firstNameRight.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
     firstNameRight.setLeft( 312 );
@@ -54,6 +56,18 @@ public class TextWrapTemplate extends RowTemplate {
     firstNameRight.setSelectable( true );
     firstNameRight.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
     firstNameRight.setWrap( true );
+    TextCell somethingElse = new TextCell( this );
+    somethingElse.setHorizontalAlignment( SWT.RIGHT );
+    somethingElse.setVerticalAlignment( SWT.TOP );
+    somethingElse.setText( "No WRAP,\n but a linebreak" );
+    somethingElse.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
+    somethingElse.setLeft( 472 );
+    somethingElse.setTop( 4 );
+    somethingElse.setWidth( 150 );
+    somethingElse.setHeight( 90 );
+    somethingElse.setSelectable( true );
+    somethingElse.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
+    somethingElse.setWrap( false );
   }
 
 }

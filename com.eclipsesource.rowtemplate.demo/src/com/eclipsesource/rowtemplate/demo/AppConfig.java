@@ -13,14 +13,12 @@ package com.eclipsesource.rowtemplate.demo;
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;
 
-import com.eclipsesource.tabris.TabrisClientInstaller;
-
 
 public class AppConfig implements ApplicationConfiguration {
 
   @Override
   public void configure( Application application ) {
-    TabrisClientInstaller.install( application );
+    //TabrisClientInstaller.install( application );
     application.addEntryPoint( "/template", RowTemplateDemo.class, null );
   }
 }

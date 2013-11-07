@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.eclipsesource.rowtemplate.demo.templates;
 
-import org.eclipse.rap.rwt.internal.template.Cell.CellAlignment;
 import org.eclipse.rap.rwt.internal.template.RowTemplate;
 import org.eclipse.rap.rwt.internal.template.TextCell;
 import org.eclipse.swt.SWT;
@@ -22,7 +21,8 @@ public class TextAlignmentTemplate extends RowTemplate {
     super();
     Display display = Display.getCurrent();
     TextCell firstNameCell = new TextCell( this );
-    firstNameCell.setAlignment( CellAlignment.LEFT, CellAlignment.TOP );
+    firstNameCell.setHorizontalAlignment( SWT.LEFT );
+    firstNameCell.setVerticalAlignment( SWT.TOP );
     firstNameCell.setBindingIndex( 0 );
     firstNameCell.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
     firstNameCell.setLeft( 4 );
@@ -32,7 +32,8 @@ public class TextAlignmentTemplate extends RowTemplate {
     firstNameCell.setSelectable( true );
     firstNameCell.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
     TextCell lastNameCell = new TextCell( this );
-    lastNameCell.setAlignment( CellAlignment.H_CENTER, CellAlignment.V_CENTER );
+    lastNameCell.setHorizontalAlignment( SWT.CENTER );
+    lastNameCell.setVerticalAlignment( SWT.CENTER );
     lastNameCell.setBindingIndex( 1 );
     lastNameCell.setLeft( 110 );
     lastNameCell.setTop( 4 );
@@ -41,7 +42,8 @@ public class TextAlignmentTemplate extends RowTemplate {
     lastNameCell.setBackground( display.getSystemColor( SWT.COLOR_DARK_GREEN ) );
     lastNameCell.setForeground( display.getSystemColor( SWT.COLOR_WHITE ) );
     TextCell phoneCell = new TextCell( this );
-    phoneCell.setAlignment( CellAlignment.BOTTOM, CellAlignment.RIGHT );
+    phoneCell.setHorizontalAlignment( SWT.RIGHT );
+    phoneCell.setVerticalAlignment( SWT.BOTTOM );
     phoneCell.setBindingIndex( 2 );
     phoneCell.setLeft( 220 );
     phoneCell.setTop( 4 );

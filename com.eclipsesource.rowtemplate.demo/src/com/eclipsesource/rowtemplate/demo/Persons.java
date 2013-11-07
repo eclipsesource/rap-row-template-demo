@@ -25,7 +25,7 @@ public class Persons {
   private static List<Person> getPersons( Display display ) {
     List<Person> persons = new ArrayList<Person>();
     Person ian = new Person( "Ian", "Bull", loadImage( display, "/ian.jpg" ), "+1 555 123456", "ian@mail.domain" );
-    Person mysterion = new Person( "Mysterion, <i>The Great and Powerful</i>, master of the dark underverse of hellishly long names", null, null, "+666", "service@apple.ms" );
+    Person mysterion = new Person( "Mysterion, <i>The Great and Powerful</i>, master-\n--\n - of the dark underverse of hellishly long names", null, null, "+666", "service@apple.ms" );
     Person moritz = new Person( "Moritz", "Post", loadImage( display, "/moritz.jpg" ), "+49 555 555", "moritz@mail.domain", new Person[] {
       new Person( "Fictional Child 1", "Post", null ),
       new Person( "Fictional Child 2", "Post", null )
