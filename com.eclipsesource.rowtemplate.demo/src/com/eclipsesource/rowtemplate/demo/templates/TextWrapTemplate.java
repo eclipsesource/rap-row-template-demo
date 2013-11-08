@@ -10,13 +10,13 @@
  ******************************************************************************/
 package com.eclipsesource.rowtemplate.demo.templates;
 
-import org.eclipse.rap.rwt.internal.template.RowTemplate;
-import org.eclipse.rap.rwt.internal.template.TextCell;
+import org.eclipse.rap.rwt.template.Template;
+import org.eclipse.rap.rwt.template.TextCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
 @SuppressWarnings("restriction")
-public class TextWrapTemplate extends RowTemplate {
+public class TextWrapTemplate extends Template {
   public TextWrapTemplate() {
     super();
     Display display = Display.getCurrent();

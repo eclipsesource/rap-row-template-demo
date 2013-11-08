@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ViewerColumn;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.rap.rwt.client.service.UrlLauncher;
-import org.eclipse.rap.rwt.internal.template.RowTemplate;
+import org.eclipse.rap.rwt.template.Template;
 import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -102,7 +102,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
   private Button headerVisible;
   private Button markup;
   private Integer[] templateHeights;
-  private RowTemplate[] templates;
+  private Template[] templates;
 
   @Override
   protected void createContents( final Composite parent ) {
@@ -145,7 +145,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       "ImageFillTempalte"
     } );
     Font defaultFont = parent.getFont();
-    templates = new RowTemplate[] {
+    templates = new Template[] {
       null,
       new ExampleTemplate( defaultFont ),
       new PrettyTemplate( defaultFont ),
@@ -197,7 +197,7 @@ public class RowTemplateDemo extends AbstractEntryPoint {
     exampleControl.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
     exampleControl.setData( RWT.MARKUP_ENABLED, Boolean.valueOf( markup.getSelection() ) );
     int tempalteIndex = templateCombo.getSelectionIndex();
-    exampleControl.setData( RowTemplate.ROW_TEMPLATE, templates[ tempalteIndex ] );
+    exampleControl.setData( RWT.ROW_TEMPLATE, templates[ tempalteIndex ] );
     exampleControl.setData( RWT.CUSTOM_ITEM_HEIGHT, templateHeights[ tempalteIndex ] );
     exampleControl.moveAbove( null );
   }

@@ -10,10 +10,10 @@
  ******************************************************************************/
 package com.eclipsesource.rowtemplate.demo.templates;
 
-import org.eclipse.rap.rwt.internal.template.ImageCell;
-import org.eclipse.rap.rwt.internal.template.ImageCell.ScaleMode;
-import org.eclipse.rap.rwt.internal.template.RowTemplate;
-import org.eclipse.rap.rwt.internal.template.TextCell;
+import org.eclipse.rap.rwt.template.ImageCell;
+import org.eclipse.rap.rwt.template.Template;
+import org.eclipse.rap.rwt.template.TextCell;
+import org.eclipse.rap.rwt.template.ImageCell.ScaleMode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -22,7 +22,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 @SuppressWarnings("restriction")
-public class PrettyTemplate extends RowTemplate {
+public class PrettyTemplate extends Template {
   private static final String MY_FONT = "Tahoma, Geneva, sans-serif";
 
   public PrettyTemplate( Font defaultFont ) {
