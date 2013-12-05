@@ -25,6 +25,7 @@ import org.eclipse.rap.rwt.widgets.DialogUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -271,6 +272,24 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       public Image getImage( Object element ) {
         Person p = ( Person )element;
         return p.getImage();
+      }
+
+      @Override
+      public Color getForeground( Object element ) {
+        String firstName = ( ( Person )element ).getFirstName();
+        if( firstName != null && firstName.length() > 0 && firstName.charAt( 0 ) % 2 == 0 ) {
+          return controlCombo.getDisplay().getSystemColor( SWT.COLOR_GRAY);
+        }
+        return null;
+      }
+
+      @Override
+      public Color getBackground(Object element) {
+        String firstName = ( ( Person )element ).getFirstName();
+        if( firstName != null && firstName.length() > 0 && firstName.charAt( 0 ) % 2 == 0 ) {
+          return controlCombo.getDisplay().getSystemColor( SWT.COLOR_DARK_GRAY );
+        }
+        return null;
       }
     } );
   }
