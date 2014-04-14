@@ -15,7 +15,6 @@ import org.eclipse.rap.rwt.template.TextCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
-@SuppressWarnings("restriction")
 public class TextWrapTemplate extends Template {
   public TextWrapTemplate() {
     super();

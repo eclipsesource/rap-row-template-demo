@@ -44,11 +44,11 @@ import com.eclipsesource.rowtemplate.demo.templates.ExampleTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.ImageAlignmentTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.ImageFillTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.ImageFitTemplate;
+import com.eclipsesource.rowtemplate.demo.templates.PercentageTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.PrettyTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.TextAlignmentTemplate;
 import com.eclipsesource.rowtemplate.demo.templates.TextWrapTemplate;
 
-@SuppressWarnings("restriction")
 public class RowTemplateDemo extends AbstractEntryPoint {
 
   private final class SelectionListener extends SelectionAdapter {
@@ -142,7 +142,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       "TextWrapTempalte",
       "ImageAlignmentTempalte",
       "ImageFitTempalte",
-      "ImageFillTempalte"
+      "ImageFillTempalte",
+      "PercentageTempalte"
     } );
     Font defaultFont = parent.getFont();
     templates = new Template[] {
@@ -153,7 +154,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       new TextWrapTemplate(),
       new ImageAlignmentTemplate(),
       new ImageFitTemplate(),
-      new ImageFillTemplate()
+      new ImageFillTemplate(),
+      new PercentageTemplate()
     };
     templateHeights = new Integer[] {
       null,
@@ -163,7 +165,8 @@ public class RowTemplateDemo extends AbstractEntryPoint {
       Integer.valueOf( 100 ),
       Integer.valueOf( 74 ),
       Integer.valueOf( 78 ),
-      Integer.valueOf( 78 )
+      Integer.valueOf( 78 ),
+      Integer.valueOf( 100 )
     };
     templateCombo.select( 2 );
     controlCombo = new Combo( area, SWT.READ_ONLY );

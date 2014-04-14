@@ -15,7 +15,6 @@ import org.eclipse.rap.rwt.template.Template;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
-@SuppressWarnings("restriction")
 public class ImageAlignmentTemplate extends Template {
 
   public ImageAlignmentTemplate() {
